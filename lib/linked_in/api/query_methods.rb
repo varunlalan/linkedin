@@ -28,6 +28,11 @@ module LinkedIn
         simple_query(path, options)
       end
 
+      def shares_stream(options={})
+        path = "#{person_path(options)}/network"
+        simple_query(path, options)
+      end
+
       private
 
         def simple_query(path, options={})

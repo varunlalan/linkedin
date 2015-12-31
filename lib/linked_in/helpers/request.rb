@@ -1,13 +1,9 @@
 module LinkedIn
   module Helpers
-
     module Request
 
-      DEFAULT_HEADERS = {
-        'x-li-format' => 'json'
-      }
-
       API_PATH = '/v1'
+      DEFAULT_HEADERS = { 'x-li-format' => 'json' }
 
       protected
 

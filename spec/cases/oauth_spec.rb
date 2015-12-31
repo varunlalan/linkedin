@@ -23,8 +23,8 @@ describe "LinkedIn::Client" do
     describe "different api and auth hosts options" do
       let(:consumer) do
         LinkedIn::Client.new('1234', '1234', {
-          :api_host => 'https://api.josh.com',
-          :auth_host => 'https://www.josh.com'
+          api_host: 'https://api.josh.com',
+          auth_host: 'https://www.josh.com'
         }).consumer
       end
 
@@ -39,9 +39,9 @@ describe "LinkedIn::Client" do
     describe "different oauth paths" do
       let(:consumer) do
         LinkedIn::Client.new('1234', '1234', {
-          :request_token_path => "/secure/oauth/requestToken",
-          :access_token_path  => "/secure/oauth/accessToken",
-          :authorize_path     => "/secure/oauth/authorize",
+          request_token_path: "/secure/oauth/requestToken",
+          access_token_path:  "/secure/oauth/accessToken",
+          authorize_path:     "/secure/oauth/authorize",
         }).consumer
       end
 
@@ -56,9 +56,9 @@ describe "LinkedIn::Client" do
     describe "specify oauth urls" do
       let(:consumer) do
         LinkedIn::Client.new('1234', '1234', {
-          :request_token_url => "https://api.josh.com/secure/oauth/requestToken",
-          :access_token_url  => "https://api.josh.com/secure/oauth/accessToken",
-          :authorize_url     => "https://www.josh.com/secure/oauth/authorize",
+          request_token_url: "https://api.josh.com/secure/oauth/requestToken",
+          access_token_url:  "https://api.josh.com/secure/oauth/accessToken",
+          authorize_url:     "https://www.josh.com/secure/oauth/authorize",
         }).consumer
       end
 
@@ -73,7 +73,7 @@ describe "LinkedIn::Client" do
     describe "use the :site option to specify the host of all oauth urls" do
       let(:consumer) do
         LinkedIn::Client.new('1234', '1234', {
-          :site => "https://api.josh.com"
+          site: "https://api.josh.com"
         }).consumer
       end
 
@@ -88,7 +88,7 @@ describe "LinkedIn::Client" do
 
   describe "#request_token" do
     describe "with default options" do
-      use_vcr_cassette :record => :new_episodes
+      use_vcr_cassette record: :new_episodes
 
       it "should return a valid request token" do
         request_token = client.request_token
@@ -101,10 +101,10 @@ describe "LinkedIn::Client" do
     end
 
     describe "with a callback url" do
-      use_vcr_cassette :record => :new_episodes
+      use_vcr_cassette record: :new_episodes
 
       it "should return a valid access token" do
-        request_token = client.request_token(:oauth_callback => 'http://www.josh.com')
+        request_token = client.request_token(oauth_callback: 'http://www.josh.com')
 
         request_token.should be_a_kind_of OAuth::RequestToken
         request_token.authorize_url.should include("https://www.linkedin.com/uas/oauth/authorize?oauth_token=")
@@ -128,7 +128,7 @@ describe "LinkedIn::Client" do
       client.authorize_from_request('dummy-token', 'dummy-secret', 'dummy-pin')
     end
 
-    use_vcr_cassette :record => :new_episodes, :match_requests_on => [:uri, :method]
+    use_vcr_cassette record: :new_episodes, match_requests_on: [:uri, :method]
 
     it "should return a valid access token" do
       access_token.should be_a_kind_of Array
