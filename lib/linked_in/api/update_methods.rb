@@ -5,7 +5,7 @@ module LinkedIn
 
       def add_share(share)
         path = "/people/~/shares"
-        defaults = {:visibility => {:code => "anyone"}}
+        defaults = {visibility: {code: "anyone"}}
         post(path, defaults.merge(share).to_json, "Content-Type" => "application/json")
       end
 
@@ -17,14 +17,15 @@ module LinkedIn
 
       # def share(options={})
       #   path = "/people/~/shares"
-      #   defaults = { :visability => 'anyone' }
+      #   defaults = { visability: 'anyone' }
       #   post(path, share_to_xml(defaults.merge(options)))
       # end
       #
-      # def update_comment(network_key, comment)
-      #   path = "/people/~/network/updates/key=#{network_key}/update-comments"
-      #   post(path, comment_to_xml(comment))
-      # end
+      def update_comment(network_key, comment)
+        path = "/people/~/network/updates/key=#{network_key}/update-comments"
+        body = {'comment' => comment}
+        post(path, body.to_json, "Content-Type" => "application/json")
+      end
       #
       # def update_network(message)
       #   path = "/people/~/person-activities"
@@ -33,13 +34,13 @@ module LinkedIn
       #
       def send_message(subject, body, recipient_paths)
         path = "/people/~/mailbox"
-      
+
         message = {
-            'subject' => subject, 
+            'subject' => subject,
             'body' => body,
             'recipients' => {
-                'values' => recipient_paths.map do |profile_path| 
-                  { 'person' => { '_path' => "/people/#{profile_path}" } } 
+                'values' => recipient_paths.map do |profile_path|
+                  { 'person' => { '_path' => "/people/#{profile_path}" } }
                 end
             }
         }

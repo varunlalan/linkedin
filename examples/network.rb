@@ -6,7 +6,7 @@
 client.network_updates
 
 # get profile picture changes
-client.network_updates(:type => 'PICT')
+client.network_updates(type: 'PICT')
 
 # view connections for the currently authenticated user
 client.connections

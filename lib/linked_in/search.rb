@@ -10,7 +10,7 @@ module LinkedIn
         path += field_selector(fields) if fields
       end
 
-      options = { :keywords => options } if options.is_a?(String)
+      options = { keywords: options } if options.is_a?(String)
       options = format_options_for_query(options)
 
       result_json = get(to_uri(path, options))

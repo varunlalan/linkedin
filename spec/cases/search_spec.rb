@@ -19,7 +19,7 @@ describe LinkedIn::Search do
   describe "#search_company" do
 
     describe "by keywords string parameter" do
-      use_vcr_cassette :record => :new_episodes
+      use_vcr_cassette record: :new_episodes
 
       let(:results) do
         client.search('apple', :company)
@@ -33,10 +33,10 @@ describe LinkedIn::Search do
     end
 
     describe "by single keywords option" do
-      use_vcr_cassette :record => :new_episodes
+      use_vcr_cassette record: :new_episodes
 
       let(:results) do
-        options = {:keywords => 'apple'}
+        options = {keywords: 'apple'}
         client.search(options, :company)
       end
 
@@ -48,10 +48,10 @@ describe LinkedIn::Search do
     end
 
     describe "by single keywords option with facets to return" do
-      use_vcr_cassette :record => :new_episodes
+      use_vcr_cassette record: :new_episodes
 
       let(:results) do
-        options = {:keywords => 'apple', :facets => [:industry]}
+        options = {keywords: 'apple', facets: [:industry]}
         client.search(options, :company)
       end
 
@@ -61,10 +61,10 @@ describe LinkedIn::Search do
     end
 
     describe "by single keywords option with pagination" do
-      use_vcr_cassette :record => :new_episodes
+      use_vcr_cassette record: :new_episodes
 
       let(:results) do
-        options = {:keywords => 'apple', :start => 5, :count => 5}
+        options = {keywords: 'apple', start: 5, count: 5}
         client.search(options, :company)
       end
 
@@ -78,11 +78,11 @@ describe LinkedIn::Search do
     end
 
     describe "by keywords options with fields" do
-      use_vcr_cassette :record => :new_episodes
+      use_vcr_cassette record: :new_episodes
 
       let(:results) do
-        fields = [{:companies => [:id, :name, :industries, :description, :specialties]}, :num_results]
-        client.search({:keywords => 'apple', :fields => fields}, 'company')
+        fields = [{companies: [:id, :name, :industries, :description, :specialties]}, :num_results]
+        client.search({keywords: 'apple', fields: fields}, 'company')
       end
 
       it "should perform a search" do
@@ -97,7 +97,7 @@ describe LinkedIn::Search do
   describe "#search" do
 
     describe "by keywords string parameter" do
-      use_vcr_cassette :record => :new_episodes
+      use_vcr_cassette record: :new_episodes
 
       let(:results) do
         client.search('github')
@@ -112,10 +112,10 @@ describe LinkedIn::Search do
     end
 
     describe "by single keywords option" do
-      use_vcr_cassette :record => :new_episodes
+      use_vcr_cassette record: :new_episodes
 
       let(:results) do
-        client.search(:keywords => 'github')
+        client.search(keywords: 'github')
       end
 
       it "should perform a search" do
@@ -127,10 +127,10 @@ describe LinkedIn::Search do
     end
 
     describe "by single keywords option with pagination" do
-      use_vcr_cassette :record => :new_episodes
+      use_vcr_cassette record: :new_episodes
 
       let(:results) do
-        client.search(:keywords => 'github', :start => 5, :count => 5)
+        client.search(keywords: 'github', start: 5, count: 5)
       end
 
       it "should perform a search" do
@@ -145,10 +145,10 @@ describe LinkedIn::Search do
     end
 
     describe "by first_name and last_name options" do
-      use_vcr_cassette :record => :new_episodes
+      use_vcr_cassette record: :new_episodes
 
       let(:results) do
-        client.search(:first_name => 'Giliardi', :last_name => 'Pires')
+        client.search(first_name: 'Giliardi', last_name: 'Pires')
       end
 
       it "should perform a search" do
@@ -160,11 +160,11 @@ describe LinkedIn::Search do
     end
 
     describe "by first_name and last_name options with fields" do
-      use_vcr_cassette :record => :new_episodes
+      use_vcr_cassette record: :new_episodes
 
       let(:results) do
-        fields = [{:people => [:id, :first_name, :last_name, :public_profile_url, :picture_url]}, :num_results]
-        client.search(:first_name => 'Giliardi', :last_name => 'Pires', :fields => fields)
+        fields = [{people: [:id, :first_name, :last_name, :public_profile_url, :picture_url]}, :num_results]
+        client.search(first_name: 'Giliardi', last_name: 'Pires', fields: fields)
       end
 
       it "should perform a search" do
@@ -178,10 +178,10 @@ describe LinkedIn::Search do
     end
 
     describe "by company_name option" do
-      use_vcr_cassette :record => :new_episodes
+      use_vcr_cassette record: :new_episodes
 
       let(:results) do
-        client.search(:company_name => 'linkedin')
+        client.search(company_name: 'linkedin')
       end
 
       it "should perform a search" do
@@ -194,7 +194,7 @@ describe LinkedIn::Search do
 
     describe "#field_selector" do
       it "should not modify the parameter object" do
-        fields = [{:people => [:id, :first_name]}]
+        fields = [{people: [:id, :first_name]}]
         fields_dup = fields.dup
         client.send(:field_selector, fields)
         fields.should eq fields_dup

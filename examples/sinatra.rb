@@ -39,7 +39,7 @@ end
 
 get "/auth" do
   client = LinkedIn::Client.new(settings.api, settings.secret)
-  request_token = client.request_token(:oauth_callback => "http://#{request.host}:#{request.port}/auth/callback")
+  request_token = client.request_token(oauth_callback: "http://#{request.host}:#{request.port}/auth/callback")
   session[:rtoken] = request_token.token
   session[:rsecret] = request_token.secret
 
@@ -67,11 +67,11 @@ __END__
 @@index
 -if login?
   %p Welcome #{profile.first_name}!
-  %a{:href => "/auth/logout"} Logout
+  %a{href: "/auth/logout"} Logout
   %p= profile.headline
   %br
   %div= "You have #{connections.total} connections!"
   -connections.all.each do |c|
     %div= "#{c.first_name} #{c.last_name} - #{c.headline}"
 -else
-  %a{:href => "/auth"} Login using LinkedIn
+  %a{href: "/auth"} Login using LinkedIn
