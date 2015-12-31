@@ -16,10 +16,11 @@ describe LinkedIn::Search do
     client
   end
 
+  vcr_options = { :record => :new_episodes}
+
   describe "#search_company" do
 
-    describe "by keywords string parameter" do
-      use_vcr_cassette :record => :new_episodes
+    describe "by keywords string parameter", vcr: vcr_options do
 
       let(:results) do
         client.search('apple', :company)
@@ -32,8 +33,7 @@ describe LinkedIn::Search do
       end
     end
 
-    describe "by single keywords option" do
-      use_vcr_cassette :record => :new_episodes
+    describe "by single keywords option", vcr: vcr_options do
 
       let(:results) do
         options = {:keywords => 'apple'}
@@ -47,8 +47,7 @@ describe LinkedIn::Search do
       end
     end
 
-    describe "by single keywords option with facets to return" do
-      use_vcr_cassette :record => :new_episodes
+    describe "by single keywords option with facets to return", vcr: vcr_options do
 
       let(:results) do
         options = {:keywords => 'apple', :facets => [:industry]}
@@ -60,8 +59,7 @@ describe LinkedIn::Search do
       end
     end
 
-    describe "by single keywords option with pagination" do
-      use_vcr_cassette :record => :new_episodes
+    describe "by single keywords option with pagination", vcr: vcr_options do
 
       let(:results) do
         options = {:keywords => 'apple', :start => 5, :count => 5}
@@ -70,15 +68,14 @@ describe LinkedIn::Search do
 
       it "should perform a search" do
         results.companies.all.size.should == 5
-        results.companies.all.first.name.should == 'Apple Vacations'
-        results.companies.all.first.id.should == 19271
-        results.companies.all.last.name.should == 'Micro Center'
-        results.companies.all.last.id.should == 15552
+        results.companies.all.first.name.should == 'iSquare - Apple Authorized Distributor in Greece & Cyprus'
+        results.companies.all.first.id.should == 2135525
+        results.companies.all.last.name.should == 'Apple Crumble'
+        results.companies.all.last.id.should == 1049054
       end
     end
 
-    describe "by keywords options with fields" do
-      use_vcr_cassette :record => :new_episodes
+    describe "by keywords options with fields", vcr: vcr_options do
 
       let(:results) do
         fields = [{:companies => [:id, :name, :industries, :description, :specialties]}, :num_results]
@@ -87,7 +84,7 @@ describe LinkedIn::Search do
 
       it "should perform a search" do
         results.companies.all.first.name.should == 'Apple'
-        results.companies.all.first.description.should == 'Apple designs Macs, the best personal computers in the world, along with Mac OS X, iLife, iWork, and professional software. Apple leads the digital music revolution with its iPods and iTunes online store. Apple is reinventing the mobile phone with its revolutionary iPhone and App Store, and has recently introduced its magical iPad which is defining the future of mobile media and computing devices.'
+        results.companies.all.first.description.should == 'Apple designs Macs, the best personal computers in the world, along with OS X, iLife, iWork and professional software. Apple leads the digital music revolution with its iPods and iTunes online store. Apple has reinvented the mobile phone with its revolutionary iPhone and App Store, and is defining the future of mobile media and computing devices with iPad.'
         results.companies.all.first.id.should == 162479
       end
     end
@@ -96,99 +93,130 @@ describe LinkedIn::Search do
 
   describe "#search" do
 
-    describe "by keywords string parameter" do
-      use_vcr_cassette :record => :new_episodes
+    describe "by keywords string parameter", vcr: vcr_options do
 
       let(:results) do
         client.search('github')
       end
 
       it "should perform a search" do
-        results.people.all.size.should == 10
-        results.people.all.first.first_name.should == 'Giliardi'
-        results.people.all.first.last_name.should == 'Pires'
-        results.people.all.first.id.should == 'YkdnFl04s_'
+        results.people.all.size.should == 6
+        results.people.all.first.first_name.should == 'Shay'
+        results.people.all.first.last_name.should == 'Frendt'
+        results.people.all.first.id.should == 'ucXjUw4M9J'
       end
     end
 
-    describe "by single keywords option" do
-      use_vcr_cassette :record => :new_episodes
+    describe "by single keywords option", vcr: vcr_options do
 
       let(:results) do
         client.search(:keywords => 'github')
       end
 
       it "should perform a search" do
-        results.people.all.size.should == 10
-        results.people.all.first.first_name.should == 'Giliardi'
-        results.people.all.first.last_name.should == 'Pires'
-        results.people.all.first.id.should == 'YkdnFl04s_'
+        results.people.all.size.should == 6
+        results.people.all.first.first_name.should == 'Shay'
+        results.people.all.first.last_name.should == 'Frendt'
+        results.people.all.first.id.should == 'ucXjUw4M9J'
       end
     end
 
-    describe "by single keywords option with pagination" do
-      use_vcr_cassette :record => :new_episodes
+    describe "by single keywords option with pagination", vcr: vcr_options do
 
       let(:results) do
         client.search(:keywords => 'github', :start => 5, :count => 5)
       end
 
       it "should perform a search" do
-        results.people.all.size.should == 5
-        results.people.all.first.first_name.should == 'Stephen'
-        results.people.all.first.last_name.should == 'M.'
-        results.people.all.first.id.should == 'z2XMcxa_dR'
-        results.people.all.last.first_name.should == 'Pablo'
-        results.people.all.last.last_name.should == 'C.'
-        results.people.all.last.id.should == 'pdzrGpyP0h'
-      end
-    end
-
-    describe "by first_name and last_name options" do
-      use_vcr_cassette :record => :new_episodes
-
-      let(:results) do
-        client.search(:first_name => 'Giliardi', :last_name => 'Pires')
-      end
-
-      it "should perform a search" do
         results.people.all.size.should == 1
-        results.people.all.first.first_name.should == 'Giliardi'
-        results.people.all.first.last_name.should == 'Pires'
-        results.people.all.first.id.should == 'YkdnFl04s_'
+        results.people.all.first.first_name.should == 'Satish'
+        results.people.all.first.last_name.should == 'Talim'
+        results.people.all.first.id.should == 'V1FPuGot-I'
       end
     end
 
-    describe "by first_name and last_name options with fields" do
-      use_vcr_cassette :record => :new_episodes
+    describe "by first_name and last_name options", vcr: vcr_options do
 
       let(:results) do
-        fields = [{:people => [:id, :first_name, :last_name, :public_profile_url, :picture_url]}, :num_results]
-        client.search(:first_name => 'Giliardi', :last_name => 'Pires', :fields => fields)
-      end
-
-      it "should perform a search" do
-        results.people.all.size.should == 1
-        results.people.all.first.first_name.should == 'Giliardi'
-        results.people.all.first.last_name.should == 'Pires'
-        results.people.all.first.id.should == 'YkdnFl04s_'
-        results.people.all.first.picture_url == 'http://media.linkedin.com/mpr/mprx/0_Oz05kn9xkWziAEOUKtOVkqzjXd8Clf7UyqIVkqchR2NtmwZRt1fWoN_aobhg-HmB09jUwPLKrAhU'
-        results.people.all.first.public_profile_url == 'http://www.linkedin.com/in/gibanet'
-      end
-    end
-
-    describe "by company_name option" do
-      use_vcr_cassette :record => :new_episodes
-
-      let(:results) do
-        client.search(:company_name => 'linkedin')
+        client.search(:first_name => 'Charles', :last_name => 'Garcia')
       end
 
       it "should perform a search" do
         results.people.all.size.should == 10
-        results.people.all.first.first_name.should == 'Donald'
-        results.people.all.first.last_name.should == 'Denker'
-        results.people.all.first.id.should == 'VQcsz5Hp_h'
+        results.people.all.first.first_name.should == 'Charles'
+        results.people.all.first.last_name.should == 'Garcia, CFA'
+        results.people.all.first.id.should == '2zk34r8TvA'
+      end
+    end
+
+    describe "by email address", vcr: vcr_options do
+
+      let(:results) do
+        fields = ['id']
+        client.profile(:email => 'email=yy@zz.com', :fields => fields)
+      end
+
+      it "should perform a people search" do
+        results._total.should == 1
+        output = results["values"]
+        output.each do |record|
+          record.id.should == '96GVfLeWjU'
+          record._key.should == 'email=yy@zz.com'
+        end
+      end
+    end
+
+    describe "by multiple email address", vcr: vcr_options do
+      
+      let(:results) do
+        fields = ['id']
+        client.profile(:email => 'email=yy@zz.com,email=xx@yy.com', :fields => fields)
+      end
+
+      it "should perform a multi-email search" do
+        results._total.should == 2
+        output = results["values"]
+        output.count.should == 2
+      end
+    end
+
+    describe "email search returns unauthorized", vcr: vcr_options do
+
+      it "should raise an unauthorized error" do
+        fields = ['id']
+        expect {client.profile(:email => 'email=aa@bb.com', :fields => fields)}.to raise_error(LinkedIn::Errors::UnauthorizedError)
+      end
+    end
+
+    describe "by first_name and last_name options with fields", vcr: vcr_options do
+
+      let(:results) do
+        fields = [{:people => [:id, :first_name, :last_name, :public_profile_url, :picture_url]}, :num_results]
+        client.search(:first_name => 'Charles', :last_name => 'Garcia', :fields => fields)
+      end
+
+      it "should perform a search" do
+        first_person = results.people.all.first
+        results.people.all.size.should == 10
+        first_person.first_name.should == 'Charles'
+        first_person.last_name.should == 'Garcia, CFA'
+        first_person.id.should == '2zk34r8TvA'
+        first_person.picture_url.should be_nil
+        first_person.public_profile_url.should == 'http://www.linkedin.com/in/charlesgarcia'
+      end
+    end
+
+    describe "by company_name option", vcr: vcr_options do
+
+      let(:results) do
+        client.search(:company_name => 'IBM')
+      end
+
+      it "should perform a search" do
+        results.people.all.size.should == 6
+        results.people.all.first.first_name.should == 'Ryan'
+        results.people.all.first.last_name.should == 'Sue'
+        results.people.all.first.id.should == 'KHkgwBMaa-'
       end
     end
 

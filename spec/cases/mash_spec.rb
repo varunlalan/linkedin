@@ -18,6 +18,7 @@ describe LinkedIn::Mash do
         'firstName' => 'Josh',
         'LastName' => 'Kalderimis',
         '_key' => 1234,
+        'id' => 1345,
         '_total' => 1234,
         'values' => {},
         'numResults' => 'total_results'
@@ -29,8 +30,23 @@ describe LinkedIn::Mash do
       mash.should have_key('last_name')
     end
 
-    it "should convert the key _key to id" do
-      mash.should have_key('id')
+    # this breaks data coming back from linkedIn
+    it "converts _key to id if there is an id column" do
+      mash._key.should == 1234
+      mash.id.should == 1345
+    end
+
+    context 'no collision' do
+      let(:mash) {
+        LinkedIn::Mash.new({
+          '_key' => 1234
+        })
+
+      }
+      it 'converts _key to id if there is no collision' do
+        mash.id.should == 1234
+        mash._key.should == 1234
+      end
     end
 
     it "should convert the key _total to total" do
@@ -79,6 +95,18 @@ describe LinkedIn::Mash do
 
     it "should return a valid Date if the keys year, month, day all exist" do
       date_mash.to_date.should == Date.civil(2010, 06, 23)
+    end
+  end
+
+  describe "#all" do
+    let(:all_mash) do
+      LinkedIn::Mash.new({
+        :values => nil
+      })
+    end
+
+    it "should return an empty array if values is nil due to no results being found for a query" do
+      all_mash.all.should == []
     end
   end
 
